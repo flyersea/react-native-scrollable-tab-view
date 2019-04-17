@@ -126,7 +126,7 @@ const ScrollableTabView = createReactClass({
     }
   },
 
-  goToPage(pageNumber) {
+  goToPage(pageNumber, isTabPressed = false) {
     if (Platform.OS === 'ios') {
       const offset = pageNumber * this.state.containerWidth;
       if (this.scrollView) {
@@ -145,7 +145,7 @@ const ScrollableTabView = createReactClass({
     const currentPage = this.state.currentPage;
     this.updateSceneKeys({
       page: pageNumber,
-      callback: this._onChangeTab.bind(this, currentPage, pageNumber),
+      callback: this._onChangeTab.bind(this, currentPage, pageNumber, isTabPressed),
     });
   },
 
@@ -304,11 +304,12 @@ const ScrollableTabView = createReactClass({
     });
   },
 
-  _onChangeTab(prevPage, currentPage) {
+  _onChangeTab(prevPage, currentPage, isTabPressed = false) {
     this.props.onChangeTab({
       i: currentPage,
       ref: this._children()[currentPage],
       from: prevPage,
+      isTabPressed = isTabPressed
     });
   },
 
